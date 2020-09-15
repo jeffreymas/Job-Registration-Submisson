@@ -19,7 +19,23 @@ namespace JobRegistrationSubmisson.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("JobRegistrationSubmisson.Models.Accounts", b =>
+            modelBuilder.Entity("JobRegistrationSubmisson.Models.Role", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("NormalizedName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tb_M_Role");
+                });
+
+            modelBuilder.Entity("JobRegistrationSubmisson.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -54,78 +70,31 @@ namespace JobRegistrationSubmisson.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tb_Account");
+                    b.ToTable("TB_M_User");
                 });
 
-            modelBuilder.Entity("JobRegistrationSubmisson.Models.AccRoles", b =>
+            modelBuilder.Entity("JobRegistrationSubmisson.Models.UserRole", b =>
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<int>("Id");
-
                     b.Property<string>("RoleId");
-
-                    b.Property<string>("RolesId");
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("RolesId");
+                    b.HasIndex("RoleId");
 
-                    b.ToTable("Tb_AccRoles");
+                    b.ToTable("Tb_M_UserRole");
                 });
 
-            modelBuilder.Entity("JobRegistrationSubmisson.Models.Employees", b =>
+            modelBuilder.Entity("JobRegistrationSubmisson.Models.UserRole", b =>
                 {
-                    b.Property<string>("EmpId");
-
-                    b.Property<string>("Adress");
-
-                    b.Property<DateTimeOffset>("CreateTime");
-
-                    b.Property<DateTimeOffset>("DeleteTime");
-
-                    b.Property<bool>("IsDelete");
-
-                    b.Property<DateTimeOffset>("UpdateTime");
-
-                    b.HasKey("EmpId");
-
-                    b.ToTable("Tb_Employees");
-                });
-
-            modelBuilder.Entity("JobRegistrationSubmisson.Models.Roles", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ConcurrencyStamp");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("NormalizedName");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tb_Roles");
-                });
-
-            modelBuilder.Entity("JobRegistrationSubmisson.Models.AccRoles", b =>
-                {
-                    b.HasOne("JobRegistrationSubmisson.Models.Roles", "Roles")
+                    b.HasOne("JobRegistrationSubmisson.Models.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RolesId");
+                        .HasForeignKey("RoleId");
 
-                    b.HasOne("JobRegistrationSubmisson.Models.Accounts", "Accounts")
-                        .WithMany("AccRoles")
+                    b.HasOne("JobRegistrationSubmisson.Models.User", "User")
+                        .WithMany("userRoles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("JobRegistrationSubmisson.Models.Employees", b =>
-                {
-                    b.HasOne("JobRegistrationSubmisson.Models.Accounts", "Accounts")
-                        .WithOne("Employees")
-                        .HasForeignKey("JobRegistrationSubmisson.Models.Employees", "EmpId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

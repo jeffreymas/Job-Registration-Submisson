@@ -18,6 +18,5 @@ namespace JobRegistrationSubmisson.Models
         public DateTimeOffset DeleteTime { get; set; }
         public bool IsDelete { get; set; }
 
-        public Accounts Accounts { get; set; }
     }
 }

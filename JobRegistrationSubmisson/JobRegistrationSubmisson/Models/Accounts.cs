@@ -10,7 +10,5 @@ namespace JobRegistrationSubmisson.Models
     [Table("Tb_Account")]
     public class Accounts : IdentityUser
     {
-        public ICollection<AccRoles> AccRoles { get; set; }
-        public Employees Employees { get; set; }
     }
 }

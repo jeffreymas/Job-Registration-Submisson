@@ -32,59 +32,52 @@ namespace JobRegistrationSubmisson.Controllers
         RandomDigit randDig = new RandomDigit();
         SmtpClient client = new SmtpClient();
 
-
-        public AccountsController(MyContext myContext, IConfiguration config)
+        public AccountsController(MyContext myContext, IConfiguration iconfiguration)
         {
             _context = myContext;
-            _configuration = config;
+            _configuration = iconfiguration;
         }
 
-        [Authorize]
         // GET api/values
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
-        public async Task<List<AccountVM>> GetAll()
+        //public async Task<List<User>> GetAll()
+        public List<AccountVM> GetAll()
         {
             List<AccountVM> list = new List<AccountVM>();
-            var getData = await _context.AccRoles.Include("Account").Include("Roles").ToListAsync();
-            if (getData.Count == 0)
+            foreach (var item in _context.Accounts)
             {
-                return null;
-            }
-            foreach (var item in getData)
-            {
-                var user = new AccountVM()
+                var rolee = _context.AccRoles.Where(ru => ru.Accounts.Id == item.Id).FirstOrDefault();
+                var role = _context.Roles.Where(r => r.Id == rolee.RoleId).FirstOrDefault();
+                AccountVM user = new AccountVM()
                 {
-                    Id = item.Accounts.Id,
-                    UserName = item.Accounts.UserName,
-                    Email = item.Accounts.Email,
-                    Password = item.Accounts.PasswordHash,
-                    Phone = item.Accounts.PhoneNumber,
-                    RoleName = item.Roles.Name,
-                    VerifyCode = item.Accounts.SecurityStamp,
+                    Id = item.Id,
+                    UserName = item.UserName,
+                    Email = item.Email,
+                    Password = item.PasswordHash,
+                    Phone = item.PhoneNumber,
+                    RoleName = role.Name
                 };
                 list.Add(user);
             }
             return list;
+            //return await _context.Users.ToListAsync<User>();
         }
 
-        [Authorize]
         [HttpGet("{id}")]
         public AccountVM GetID(string id)
         {
-            var getData = _context.AccRoles.Include("Accounts").Include("Role").SingleOrDefault(x => x.UserId == id);
-            if (getData == null || getData.Roles == null || getData.Accounts == null)
+
+            //var rolee = _context.RoleUsers.Where(ru => ru.UserId == id).FirstOrDefault();
+            var getId = _context.Accounts.Find(id);
+            AccountVM user = new AccountVM()
             {
-                return null;
-            }
-            var user = new AccountVM()
-            {
-                Id = getData.Accounts.Id,
-                UserName = getData.Accounts.UserName,
-                Email = getData.Accounts.Email,
-                Password = getData.Accounts.PasswordHash,
-                Phone = getData.Accounts.PhoneNumber,
-                RoleID = getData.Roles.Id,
-                RoleName = getData.Roles.Name
+                Id = getId.Id,
+                UserName = getId.UserName,
+                Email = getId.Email,
+                Password = getId.PasswordHash,
+                Phone = getId.PhoneNumber,
+                //RoleName = id.Name
             };
             return user;
         }
@@ -104,7 +97,7 @@ namespace JobRegistrationSubmisson.Controllers
 
                 var code = randDig.GenerateRandom();
                 var fill = "Hi " + accountVM.UserName + "\n\n"
-                          + "Please verifty Code for this Apps : \n"
+                          + "Try this Code to Confirm: \n"
                           + code
                           + "\n\nThank You";
 
@@ -113,30 +106,30 @@ namespace JobRegistrationSubmisson.Controllers
                 mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
                 client.Send(mm);
 
-                var user = new Accounts
-                {
-                    UserName = accountVM.UserName,
-                    Email = accountVM.Email,
-                    SecurityStamp = code,
-                    PasswordHash = Bcrypt.HashPassword(accountVM.Password),
-                    PhoneNumber = accountVM.Phone,
-                    EmailConfirmed = false,
-                    PhoneNumberConfirmed = false,
-                    TwoFactorEnabled = false,
-                    LockoutEnabled = false,
-                    AccessFailedCount = 0
-                };
-                _context.Accounts.Add(user);
-                var accRole = new AccRoles
-                {
-                    UserId = user.Id,
-                    RoleId = "2"
-                };
-                _context.AccRoles.Add(accRole);
+                accountVM.RoleName = "Admin";
+                var user = new Accounts();
+                var accRoles = new AccRoles();
+                var role = _context.Roles.Where(r => r.Name == accountVM.RoleName).FirstOrDefault();
+                user.UserName = accountVM.UserName;
+                user.Email = accountVM.Email;
+                user.EmailConfirmed = false;
+                user.PasswordHash = Bcrypt.HashPassword(accountVM.Password);
+                user.PhoneNumber = accountVM.Phone;
+                user.PhoneNumberConfirmed = false;
+                user.TwoFactorEnabled = false;
+                user.LockoutEnabled = false;
+                user.AccessFailedCount = 0;
+                user.SecurityStamp = code;
+                accRoles.Roles = role;
+                accRoles.Accounts = user;
+       
+                _context.AccRoles.AddAsync(accRoles);
+                _context.Accounts.AddAsync(user);
                 _context.SaveChanges();
                 return Ok("Successfully Created");
             }
-            return BadRequest("Not Successfully");
+            return BadRequest("registration failed!");
+
         }
 
         [HttpPut("{id}")]
@@ -144,46 +137,51 @@ namespace JobRegistrationSubmisson.Controllers
         {
             if (ModelState.IsValid)
             {
-                var getData = _context.AccRoles.Include("Role").Include("User").SingleOrDefault(x => x.UserId == id);
-                //var getId = _context.Users.SingleOrDefault(x => x.Id == id);
-                getData.Accounts.UserName = accountVM.UserName;
-                getData.Accounts.Email = accountVM.Email;
-                getData.Accounts.PhoneNumber = accountVM.Phone;
-                if (!Bcrypt.Verify(accountVM.Password, getData.Accounts.PasswordHash))
-                {
-                    getData.Accounts.PasswordHash = Bcrypt.HashPassword(accountVM.Password);
-                }
-                getData.RoleId = accountVM.RoleID;
-
-                _context.AccRoles.Update(getData);
+                var getId = _context.Accounts.Find(id);
+                var hasbcrypt = BCrypt.Net.BCrypt.HashPassword(accountVM.Password, 12);
+                getId.Id = accountVM.Id;
+                getId.UserName = accountVM.UserName;
+                getId.Email = accountVM.Email;
+                getId.PasswordHash = hasbcrypt;
+                getId.PhoneNumber = accountVM.Phone;
                 _context.SaveChanges();
-                return Ok("Successfully Updated");
+                return Ok("Successfully Update");
             }
-            return BadRequest("Not Successfully");
+            return BadRequest("Update Failed!");
+
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            var getId = _context.Accounts.Find(id);
-            _context.Accounts.Remove(getId);
-            _context.SaveChanges();
-            return Ok(new { msg = "Successfully Delete" });
-        }
-
-
-        [HttpPost]
-        [Route("Register")]
-        public IActionResult Register(AccountVM accountVM)
-        {
             if (ModelState.IsValid)
             {
-                return Create(accountVM);
+                var getUR = _context.AccRoles.Where(a => a.UserId == id).FirstOrDefault();
+                var getId = _context.Accounts.Find(id);
+                _context.AccRoles.Remove(getUR);
+                _context.Accounts.Remove(getId);
+                _context.SaveChanges();
+                return Ok("Successfully Delete");
             }
-            return BadRequest("Data Not Valid");
+            return BadRequest("Delete Failed!");
+
         }
 
+
+        //[HttpPost]
+        //[Route("Register")]
+        //public IActionResult Register(UserVM userVM)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        this.Create(userVM);
+        //        return Ok();
+        //    }
+        //    return BadRequest();
+        //}
+
         [HttpPost]
+        //[HttpGet("{}")]
         [Route("Login")]
         public IActionResult Login(AccountVM accountVM)
         {
@@ -196,33 +194,56 @@ namespace JobRegistrationSubmisson.Controllers
                 }
                 else if (accountVM.Password == null || accountVM.Password.Equals(""))
                 {
-                    return BadRequest("Password must filled");
+                    return BadRequest(new { msg = "Password must filled" });
                 }
                 else if (!Bcrypt.Verify(accountVM.Password, getUserRole.Accounts.PasswordHash))
                 {
-                    return BadRequest("Password is Wrong");
+                    return BadRequest(new { msg = "Password is Wrong" });
                 }
                 else
                 {
+                    //var user = new UserVM();
+                    //user.Id = getUserRole.User.Id;
+                    //user.UserName = getUserRole.User.UserName;
+                    //user.Email = getUserRole.User.Email;
+                    //user.Password = getUserRole.User.PasswordHash;
+                    //user.Phone = getUserRole.User.PhoneNumber;
+                    //user.RoleName = getUserRole.Role.Name;
                     if (getUserRole != null)
                     {
-                        var user = new AccountVM()
+                        if (getUserRole.Accounts.SecurityStamp != null)
                         {
-                            Id = getUserRole.Accounts.Id,
-                            UserName = getUserRole.Accounts.UserName,
-                            Email = getUserRole.Accounts.Email,
-                            Password = getUserRole.Accounts.PasswordHash,
-                            Phone = getUserRole.Accounts.PhoneNumber,
-                            RoleID = getUserRole.Roles.Id,
-                            RoleName = getUserRole.Roles.Name,
-                            VerifyCode = getUserRole.Accounts.SecurityStamp,
-                        };
-                        return Ok(GetJWT(user));
+                            var claims = new List<Claim> {
+                                new Claim("Id", getUserRole.Accounts.Id),
+                                new Claim("UserName", getUserRole.Accounts.UserName),
+                                new Claim("Email", getUserRole.Accounts.Email),
+                                new Claim("RoleName", getUserRole.Roles.Name),
+                                new Claim("VerifyCode", getUserRole.Accounts.SecurityStamp)
+                            };
+                            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                            var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
+                            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                        }
+                        else
+                        {
+                            var claims = new List<Claim> {
+                                new Claim("Id", getUserRole.Accounts.Id),
+                                new Claim("UserName", getUserRole.Accounts.UserName),
+                                new Claim("Email", getUserRole.Accounts.Email),
+                                new Claim("RoleName", getUserRole.Roles.Name)
+                            };
+                            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                            var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
+                            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                        }
                     }
                     return BadRequest("Invalid credentials");
                 }
+
             }
-            return BadRequest("Data Not Valid");
+            return BadRequest("Login Failed");
         }
 
         [HttpPost]
@@ -238,48 +259,30 @@ namespace JobRegistrationSubmisson.Controllers
                 }
                 else if (accountVM.VerifyCode != getUserRole.Accounts.SecurityStamp)
                 {
-                    return BadRequest("Your Code is Wrong");
+                    return BadRequest(new { msg = "Your Code is Wrong" });
                 }
                 else
                 {
-                    getUserRole.Accounts.SecurityStamp = null;
-                    _context.SaveChanges();
-                    var user = new AccountVM()
+                    //var user = new UserVM();
+                    //user.Id = getUserRole.User.Id;
+                    //user.Username = getUserRole.User.UserName;
+                    //user.Email = getUserRole.User.Email;
+                    //user.Password = getUserRole.User.PasswordHash;
+                    //user.Phone = getUserRole.User.PhoneNumber;
+                    //user.RoleName = getUserRole.Role.Name;
+                    //return StatusCode(200, user);
+                    return StatusCode(200, new
                     {
                         Id = getUserRole.Accounts.Id,
-                        UserName = getUserRole.Accounts.UserName,
+                        Username = getUserRole.Accounts.UserName,
                         Email = getUserRole.Accounts.Email,
-                        Password = getUserRole.Accounts.PasswordHash,
-                        Phone = getUserRole.Accounts.PhoneNumber,
-                        RoleID = getUserRole.Roles.Id,
                         RoleName = getUserRole.Roles.Name,
-                        VerifyCode = getUserRole.Accounts.SecurityStamp,
-                    };
-                    return StatusCode(200, GetJWT(user));
+                        //Email = getUserRole.User.Email,
+                        //Password = getUserRole.User.PasswordHash
+                    });
                 }
             }
-            return BadRequest("Data Not Valid");
-        }
-
-        private string GetJWT(AccountVM accountVM)
-        {
-            var claims = new List<Claim> {
-                            new Claim("Id", accountVM.Id),
-                            new Claim("UserName", accountVM.UserName),
-                            new Claim("Email", accountVM.Email),
-                            new Claim("RoleName", accountVM.RoleName),
-                            new Claim("VerifyCode", accountVM.VerifyCode == null ? "" : accountVM.VerifyCode),
-                        };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(
-                            _configuration["Jwt:Issuer"],
-                            _configuration["Jwt:Audience"],
-                            claims,
-                            expires: DateTime.UtcNow.AddDays(1),
-                            signingCredentials: signIn
-                        );
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return BadRequest("Verify Code is Failed");
         }
     }
 }
