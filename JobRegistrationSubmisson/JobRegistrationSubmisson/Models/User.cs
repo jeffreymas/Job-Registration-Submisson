@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace JobRegistrationSubmisson.Models
 {
-    [Table("Tb_AccRoles")]
-    public class AccRoles : IdentityUserRole<string>
+    [Table("TB_M_User")]
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
-        public Accounts Accounts { get; set; }
-        public Roles Roles  { get; set; }
+        public ICollection<UserRole> userRoles { get; set; }
+        public virtual Employees Employees { get; set; }
+        public virtual JobSeeker JobSeeker { get; set; }
     }
 }
