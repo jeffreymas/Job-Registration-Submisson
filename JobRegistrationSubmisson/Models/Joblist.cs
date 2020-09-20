@@ -17,6 +17,7 @@ namespace JobRegistrationSubmisson.Models
         public DateTimeOffset DeleteData { get; set; }
         public bool isDelete { get; set; }
 
-        public ICollection<JobSeeker> jobSeekers { get; set; }
+        //public string JobSeekerId { get; set; }
+        //public JobSeeker JobSeeker { get; set; }
     }
 }

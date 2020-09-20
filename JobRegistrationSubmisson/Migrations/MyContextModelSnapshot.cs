@@ -61,7 +61,7 @@ namespace JobRegistrationSubmisson.Migrations
 
             modelBuilder.Entity("JobRegistrationSubmisson.Models.JobSeeker", b =>
                 {
-                    b.Property<int>("JoblistId");
+                    b.Property<string>("JobSId");
 
                     b.Property<string>("Achievement");
 
@@ -77,12 +77,11 @@ namespace JobRegistrationSubmisson.Migrations
 
                     b.Property<string>("Gender");
 
-                    b.Property<string>("JobSId")
-                        .IsRequired();
-
                     b.Property<string>("Last_Education");
 
                     b.Property<string>("Marital_Status");
+
+                    b.Property<string>("Name");
 
                     b.Property<string>("Nationality");
 
@@ -98,11 +97,22 @@ namespace JobRegistrationSubmisson.Migrations
 
                     b.Property<DateTimeOffset>("UpdateDate");
 
-                    b.HasKey("JoblistId");
-
-                    b.HasAlternateKey("JobSId");
+                    b.HasKey("JobSId");
 
                     b.ToTable("TB_M_JobSeeker");
+                });
+
+            modelBuilder.Entity("JobRegistrationSubmisson.Models.JobSeekerList", b =>
+                {
+                    b.Property<string>("JobSeekerId");
+
+                    b.Property<int>("JoblistId");
+
+                    b.HasKey("JobSeekerId");
+
+                    b.HasIndex("JoblistId");
+
+                    b.ToTable("Tb_M_JobSeekerList");
                 });
 
             modelBuilder.Entity("JobRegistrationSubmisson.Models.Role", b =>
@@ -186,9 +196,17 @@ namespace JobRegistrationSubmisson.Migrations
                         .WithOne("JobSeeker")
                         .HasForeignKey("JobRegistrationSubmisson.Models.JobSeeker", "JobSId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("JobRegistrationSubmisson.Models.JobSeekerList", b =>
+                {
+                    b.HasOne("JobRegistrationSubmisson.Models.JobSeeker", "JobSeeker")
+                        .WithMany("jobSeekerLists")
+                        .HasForeignKey("JobSeekerId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("JobRegistrationSubmisson.Models.Joblist", "Joblist")
-                        .WithMany("jobSeekers")
+                        .WithMany()
                         .HasForeignKey("JoblistId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "ced8052f318fdc980d7e59615df1ee37fef96c9b"
+    "signature": "b04e2c30e0d76c3ae82b897018f85d78e73e1b69"
   },
   "compilationOptions": {
     "defines": [
@@ -24,11 +24,13 @@
     ".NETCoreApp,Version=v2.1": {
       "WebClient/1.0.0": {
         "dependencies": {
+          "ClosedXML": "0.95.3",
           "JobRegistrationSubmisson": "1.0.0",
           "Microsoft.AspNetCore.App": "2.1.1",
           "Microsoft.AspNetCore.Razor.Design": "2.1.2",
           "Microsoft.NETCore.App": "2.1.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.9"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.9",
+          "iTextSharp": "5.5.13.2"
         },
         "runtime": {
           "WebClient.dll": {}
@@ -46,6 +48,74 @@
         },
         "compile": {
           "lib/netstandard2.0/BCrypt.Net-Core.dll": {}
+        }
+      },
+      "BouncyCastle/1.8.6.1": {
+        "runtime": {
+          "lib/BouncyCastle.Crypto.dll": {
+            "assemblyVersion": "1.8.6.0",
+            "fileVersion": "1.8.20052.1"
+          }
+        },
+        "compile": {
+          "lib/BouncyCastle.Crypto.dll": {}
+        }
+      },
+      "ClosedXML/0.95.3": {
+        "dependencies": {
+          "DocumentFormat.OpenXml": "2.7.2",
+          "ExcelNumberFormat": "1.0.10",
+          "Microsoft.CSharp": "4.7.0",
+          "System.Drawing.Common": "4.5.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ClosedXML.dll": {
+            "assemblyVersion": "0.95.3.0",
+            "fileVersion": "0.95.3.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/ClosedXML.dll": {}
+        }
+      },
+      "DocumentFormat.OpenXml/2.7.2": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.3",
+          "System.IO.Packaging": "4.0.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/DocumentFormat.OpenXml.dll": {
+            "assemblyVersion": "2.7.2.0",
+            "fileVersion": "2.7.2.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.3/DocumentFormat.OpenXml.dll": {}
+        }
+      },
+      "ExcelNumberFormat/1.0.10": {
+        "runtime": {
+          "lib/netstandard2.0/ExcelNumberFormat.dll": {
+            "assemblyVersion": "1.0.10.0",
+            "fileVersion": "1.0.10.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/ExcelNumberFormat.dll": {}
+        }
+      },
+      "iTextSharp/5.5.13.2": {
+        "dependencies": {
+          "BouncyCastle": "1.8.6.1"
+        },
+        "runtime": {
+          "lib/itextsharp.dll": {
+            "assemblyVersion": "5.5.13.2",
+            "fileVersion": "5.5.13.2"
+          }
+        },
+        "compile": {
+          "lib/itextsharp.dll": {}
         }
       },
       "Microsoft.AspNetCore.Razor.Design/2.1.2": {},
@@ -84,6 +154,7 @@
           "lib/netstandard1.3/Microsoft.CodeAnalysis.Workspaces.dll": {}
         }
       },
+      "Microsoft.CSharp/4.7.0": {},
       "Microsoft.NETCore.App/2.1.0": {
         "dependencies": {
           "Microsoft.NETCore.DotNetHostPolicy": "2.1.0",
@@ -370,6 +441,25 @@
           "lib/netstandard2.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll": {}
         }
       },
+      "Microsoft.Win32.SystemEvents/4.5.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "2.1.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Win32.SystemEvents.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.6.26515.6"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netcoreapp2.0/Microsoft.Win32.SystemEvents.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.6.26515.6"
+          }
+        }
+      },
       "NETStandard.Library/2.0.3": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "2.1.0"
@@ -510,6 +600,60 @@
         },
         "compile": {
           "lib/netstandard1.0/System.Composition.TypedParts.dll": {}
+        }
+      },
+      "System.Drawing.Common/4.5.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "2.1.0",
+          "Microsoft.Win32.SystemEvents": "4.5.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Drawing.Common.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.6.26515.6"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/netcoreapp2.0/System.Drawing.Common.dll": {
+            "rid": "unix",
+            "assetType": "runtime",
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.6.26515.6"
+          },
+          "runtimes/win/lib/netcoreapp2.0/System.Drawing.Common.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.6.26515.6"
+          }
+        },
+        "compile": {
+          "ref/netstandard2.0/System.Drawing.Common.dll": {}
+        }
+      },
+      "System.IO.Packaging/4.0.0": {
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.IO.Compression": "4.3.0",
+          "System.IO.FileSystem": "4.3.0",
+          "System.IO.FileSystem.Primitives": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Text.Encoding": "4.3.0",
+          "System.Xml.ReaderWriter": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.IO.Packaging.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "1.0.24212.1"
+          }
+        },
+        "compile": {
+          "ref/netstandard1.3/System.IO.Packaging.dll": {}
         }
       },
       "System.Linq.Parallel/4.3.0": {
@@ -1189,7 +1333,7 @@
       },
       "Microsoft.AspNetCore.JsonPatch/2.1.1": {
         "dependencies": {
-          "Microsoft.CSharp": "4.5.0",
+          "Microsoft.CSharp": "4.7.0",
           "Newtonsoft.Json": "11.0.2"
         },
         "compile": {
@@ -1813,9 +1957,6 @@
         },
         "compileOnly": true
       },
-      "Microsoft.CSharp/4.5.0": {
-        "compileOnly": true
-      },
       "Microsoft.DotNet.PlatformAbstractions/2.1.0": {
         "dependencies": {
           "System.AppContext": "4.3.0",
@@ -1861,7 +2002,7 @@
       },
       "Microsoft.EntityFrameworkCore.Design/2.1.1": {
         "dependencies": {
-          "Microsoft.CSharp": "4.5.0",
+          "Microsoft.CSharp": "4.7.0",
           "Microsoft.EntityFrameworkCore.Relational": "2.1.1"
         },
         "compile": {
@@ -3494,6 +3635,41 @@
       "path": "bcrypt.net-core/1.6.0",
       "hashPath": "bcrypt.net-core.1.6.0.nupkg.sha512"
     },
+    "BouncyCastle/1.8.6.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rkqpuKmJkdcfTMBkIj1b5nMdBAWKwAyh+I/BQYeqqSD2jkIlhwc9qBNKmSbnpmmm5c29qHZGLpvBSTNWvDLtQA==",
+      "path": "bouncycastle/1.8.6.1",
+      "hashPath": "bouncycastle.1.8.6.1.nupkg.sha512"
+    },
+    "ClosedXML/0.95.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Ud8+fHLzZRjtSk7NMxl5krRCXZ5zD92TdfhLEt22YFBkqWD4BI8Vhxir9VDcFCeOD2JVa/hzpkbWqE3TeC84WQ==",
+      "path": "closedxml/0.95.3",
+      "hashPath": "closedxml.0.95.3.nupkg.sha512"
+    },
+    "DocumentFormat.OpenXml/2.7.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tWT7iu0ab9PNoMTWjv24rt+qnyqvcnPOYs167vPnk4aegAYSAxoUjwNW+VxY8xoLtJntQ/JlWTi7Vt+8TghLlQ==",
+      "path": "documentformat.openxml/2.7.2",
+      "hashPath": "documentformat.openxml.2.7.2.nupkg.sha512"
+    },
+    "ExcelNumberFormat/1.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dRx817M5t0sv4GCJyAXU8qmhFXcqRpCHzLpxNmkMWTvzlfE0/KM7BNk6qEble0ffAr4xT7RyU7s/HpovVlA/9g==",
+      "path": "excelnumberformat/1.0.10",
+      "hashPath": "excelnumberformat.1.0.10.nupkg.sha512"
+    },
+    "iTextSharp/5.5.13.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8m9oT1nh9F4Z1tzWUey/8lEzZtMGFCDXQY5+8/SSmPgUWAAAWniRo8pimKUZyteNqJr5vtFBxjAhRwLxG7Q0zQ==",
+      "path": "itextsharp/5.5.13.2",
+      "hashPath": "itextsharp.5.5.13.2.nupkg.sha512"
+    },
     "Microsoft.AspNetCore.Razor.Design/2.1.2": {
       "type": "package",
       "serviceable": true,
@@ -3514,6 +3690,13 @@
       "sha512": "sha512-tJlJ99SD8bHBAXShOG/pXQ1K118cnsF01obEf9aAtdgLbw3yEPahZ7qvWeGMjrheUhvOsSkv/wTKYg9euKa8MQ==",
       "path": "microsoft.codeanalysis.workspaces.common/2.8.0",
       "hashPath": "microsoft.codeanalysis.workspaces.common.2.8.0.nupkg.sha512"
+    },
+    "Microsoft.CSharp/4.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA==",
+      "path": "microsoft.csharp/4.7.0",
+      "hashPath": "microsoft.csharp.4.7.0.nupkg.sha512"
     },
     "Microsoft.NETCore.App/2.1.0": {
       "type": "package",
@@ -3613,6 +3796,13 @@
       "path": "microsoft.visualstudio.web.codegenerators.mvc/2.1.9",
       "hashPath": "microsoft.visualstudio.web.codegenerators.mvc.2.1.9.nupkg.sha512"
     },
+    "Microsoft.Win32.SystemEvents/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LuI1oG+24TUj1ZRQQjM5Ew73BKnZE5NZ/7eAdh1o8ST5dPhUnJvIkiIn2re3MwnkRy6ELRnvEbBxHP8uALKhJw==",
+      "path": "microsoft.win32.systemevents/4.5.0",
+      "hashPath": "microsoft.win32.systemevents.4.5.0.nupkg.sha512"
+    },
     "NETStandard.Library/2.0.3": {
       "type": "package",
       "serviceable": true,
@@ -3668,6 +3858,20 @@
       "sha512": "sha512-0Zae/FtzeFgDBBuILeIbC/T9HMYbW4olAmi8XqqAGosSOWvXfiQLfARZEhiGd0LVXaYgXr0NhxiU1LldRP1fpQ==",
       "path": "system.composition.typedparts/1.0.31",
       "hashPath": "system.composition.typedparts.1.0.31.nupkg.sha512"
+    },
+    "System.Drawing.Common/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AiJFxxVPdeITstiRS5aAu8+8Dpf5NawTMoapZ53Gfirml24p7HIfhjmCRxdXnmmf3IUA3AX3CcW7G73CjWxW/Q==",
+      "path": "system.drawing.common/4.5.0",
+      "hashPath": "system.drawing.common.4.5.0.nupkg.sha512"
+    },
+    "System.IO.Packaging/4.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-taPqPWcAj/h6e/c+zIWIVe1ddJtpV6acC6g9GpolxUcIwUaH6zc0ZbFS8kkVzBkuWv76pMalKeTzfmHtfT1pXA==",
+      "path": "system.io.packaging/4.0.0",
+      "hashPath": "system.io.packaging.4.0.0.nupkg.sha512"
     },
     "System.Linq.Parallel/4.3.0": {
       "type": "package",
@@ -4359,13 +4563,6 @@
       "sha512": "sha512-hc29VUVlF2t2TfOR3c5X2mun3h5KkswkarpWBffEG4iHoSdoEueo82dplwoXg9lH2vw0mK7VYPyawcKy6YHv3A==",
       "path": "microsoft.codeanalysis.razor/2.1.1",
       "hashPath": "microsoft.codeanalysis.razor.2.1.1.nupkg.sha512"
-    },
-    "Microsoft.CSharp/4.5.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-kaj6Wb4qoMuH3HySFJhxwQfe8R/sJsNJnANrvv8WdFPMoNbKY5htfNscv+LHCu5ipz+49m2e+WQXpLXr9XYemQ==",
-      "path": "microsoft.csharp/4.5.0",
-      "hashPath": "microsoft.csharp.4.5.0.nupkg.sha512"
     },
     "Microsoft.DotNet.PlatformAbstractions/2.1.0": {
       "type": "package",

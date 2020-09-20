@@ -12,7 +12,8 @@ namespace JobRegistrationSubmisson.Models
         public string JobSId { get; set; }
         //public int JobLId { get; set; }
         //[ForeignKey("Joblist")]
-        public int JoblistId { get; set; }
+        //public int JoblistId { get; set; }
+        public string Name { get; set; }
         public string Address { get; set; }
         public DateTime Birth_Date { get; set; }
         public string Nationality { get; set; }
@@ -32,7 +33,6 @@ namespace JobRegistrationSubmisson.Models
 
 
         public User User { get; set; }
-        public Joblist Joblist { get; set; }
-
+        public ICollection<JobSeekerList> jobSeekerLists { get; set; }
     }
 }

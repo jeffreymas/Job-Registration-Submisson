@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "Charts";
+    Layout = "~/Views/Layout/_layout.cshtml";
+}
+
+<head>
+    <link href="~/css/Style.css" rel="stylesheet" />
+</head>
+<div class="content-wrapper">
+    <div class="row">
+        <!-- Donut Chart -->
+        <div class="col-lg-6">
+            <div class="card ">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header ">
+                    <h6 class="m-0 font-weight-bold text-primary">Donut Chart</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="col-md-12">
+                        <div class="amChart" id="pieChart"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Donut Chart -->
+        <div class="col-lg-6">
+            <div class="card ">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header ">
+                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="col-md-12">
+                        <div class="amChart" id="barChart"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script src="~/js/amcharts4/core.js"></script>
+    <script src="~/js/amcharts4/charts.js"></script>
+    <script src="~/js/amcharts4/themes/animated.js"></script>
+
+    <script src="~/js/Script/Charts.js"></script>
+}

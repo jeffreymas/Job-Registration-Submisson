@@ -121,28 +121,37 @@ namespace JobRegistrationSubmisson.Controllers
                 client.Send(mm);
 
                 userVM.RoleName = "JobSeeker";
-                var user = new User();
-                var roleuser = new UserRole();
+
                 var JobS = new JobSeeker();
                 var emp = new Employees();
-                var role = _context.Roles.Where(r => r.Name == userVM.RoleName).FirstOrDefault();
 
-                user.UserName = userVM.Username;
-                user.Email = userVM.Email;
-                user.EmailConfirmed = false;
-                user.PasswordHash = Bcrypt.HashPassword(userVM.Password);
-                user.PhoneNumber = userVM.Phone;
-                user.PhoneNumberConfirmed = false;
-                user.TwoFactorEnabled = false;
-                user.LockoutEnabled = false;
-                user.AccessFailedCount = 0;
-                user.SecurityStamp = code;
+                var role = _context.Roles.Where(r => r.Name == userVM.RoleName).FirstOrDefault();
+                //var joblist = _context.Joblists.Where(Q => Q.Name == userVM.JoblistName).FirstOrDefault();
+
+                var user = new User
+                {
+                    UserName = userVM.Username,
+                    Email = userVM.Email,
+                    EmailConfirmed = false,
+                    PasswordHash = Bcrypt.HashPassword(userVM.Password),
+                    PhoneNumber = userVM.Phone,
+                    PhoneNumberConfirmed = false,
+                    TwoFactorEnabled = false,
+                    LockoutEnabled = false,
+                    AccessFailedCount = 0,
+                    SecurityStamp = code,
+                };
                 _context.Users.AddAsync(user);
 
-                roleuser.Role = role;
-                roleuser.User = user;
+                var roleuser = new UserRole
+                {
+                    UserId = user.Id,
+                    RoleId = role.Id
+                };
                 _context.UserRole.AddAsync(roleuser);
 
+                //roleuser.Role = role;
+                //roleuser.User = user;
                 if (userVM.RoleName == "HR")
                 {
                     emp.EmpId = user.Id;
@@ -156,10 +165,19 @@ namespace JobRegistrationSubmisson.Controllers
                     JobS.RegistDate = DateTimeOffset.Now;
                     JobS.Reject = false;
                     JobS.Approve = false;
-                    JobS.JoblistId = userVM.Joblists;
+                    //JobSList.JoblistId = userVM.Joblists;
                     _context.JobSeekers.AddAsync(JobS);
 
                 }
+
+                var JobSList = new JobSeekerList
+                {
+                    JobSeekerId = JobS.JobSId,
+                    JoblistId = userVM.Joblists
+                };
+                //JobSList.Joblist = joblist;
+                //JobSList.JobSeeker = JobS;
+                _context.JobSeekerLists.AddAsync(JobSList);
 
                 _context.SaveChanges();
                 return Ok("Successfully Created");

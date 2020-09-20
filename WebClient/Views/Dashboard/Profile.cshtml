@@ -18,10 +18,10 @@
                 <h1 class="page-title">Profile</h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="index.html"><i class="la la-home font-20"></i></a>
+                        <a href="/"><i class="la la-home font-20"></i></a>
                     </li>
-                    <li class="breadcrumb-item">Profile</li>
                 </ol>
+                @*<a asp-action="ExportPdf" class="btn btn-danger pull-right hidden-sm-down fa fa-file-pdf-o" data-toggle="tooltip" title="Export Pdf"></a>*@
             </div>
             <div class="page-content fade-in-up">
                 <div class="row">
@@ -29,102 +29,120 @@
                         <div class="ibox">
                             <div class="ibox-body text-center">
                                 <div class="m-t-20">
-                                    <img class="img-circle" src="./assets/img/users/u3.jpg" />
+                                    <img class="img-circle" src="~/html/dist/assets/img/admin-avatar.png" />
                                 </div>
-                                <h5 class="font-strong m-b-10 m-t-10">Frank Cruz</h5>
-                                <div class="m-b-20 text-muted">Web Developer</div>
+                                <h5 class="font-strong m-b-10 m-t-10">@Context.Session.GetString("uname")</h5>
+                                @if (@Context.Session.GetString("lvl") == "HR")
+                                {
+                                    <div class="m-b-20 text-muted">@Context.Session.GetString("lvl")</div>
+                                }
+
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-md-8">
-                        <div class="ibox">
-                            <div class="ibox-body">
-                                <ul class="nav nav-tabs tabs-line">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="#profile" data-toggle="tab"><i class="ti-bar-chart"></i> Profile</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#Education" data-toggle="tab"><i class="ti-settings"></i> Education and Experience</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div class="tab-pane fade show active" id="profile">
-                                        <form action="javascript:void(0)">
-                                            <div class="form-group">
-                                                <input class="form-control" type="text" placeholder="id" id="Id" value="@Context.Session.GetString("id")" hidden>
-                                            </div>
-                                            <div class="form-group form-group-default">
-                                                <label>JobList</label>
-                                                <select class="form-control" id="JoblistOption" name="JoblistOption"></select>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-6 form-group">
-                                                    <label>Name</label>
+                    @if (@Context.Session.GetString("lvl") == "JobSeeker")
+                    {
+                        <div class="col-lg-9 col-md-8">
+                            <div class="ibox">
+                                <div class="ibox-body">
+                                    <ul class="nav nav-tabs tabs-line">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#profile" data-toggle="tab"><i class="ti-bar-chart"></i> Profile</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#Education" data-toggle="tab"><i class="ti-settings"></i> Education and Experience</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade show active" id="profile">
+                                            <form action="javascript:void(0)">
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text" placeholder="id" id="Id" value="@Context.Session.GetString("id")" hidden>
+                                                </div>
+                                                @*<div class="form-group form-group-default">
+                                                    <label>JobList</label>
+                                                    <select class="form-control" id="JoblistOption" name="JoblistOption"></select>
+                                                </div>*@
+                                                <div class="row">
+                                                    <div class="col-sm-6 form-group">
+                                                        <label>Name</label>
 
-                                                    <input class="form-control" type="text" placeholder="Name" value="@Context.Session.GetString("uname")" id="Name">
+                                                        <input class="form-control" type="text" placeholder="Name" value="@Context.Session.GetString("uname")" id="Name">
+                                                    </div>
+                                                    <div class="col-sm-6 form-group">
+                                                        <label>Gender</label>
+                                                        <select class="form-control" id="Gender" name="Action">
+                                                            <option value="">Select Option</option>
+                                                            <option>Male</option>
+                                                            <option>Female</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-6 form-group">
-                                                    <label>Gender</label>
-                                                    <input class="form-control" type="text" placeholder="Gender" id="Gender">
+                                                <div class="form-group">
+                                                    <label>Birth Date</label>
+                                                    <input class="form-control" type="date" placeholder="Birth Date" id="BirthDate">
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Birth Date</label>
-                                                <input class="form-control" type="date" placeholder="Birth Date" id="BirthDate">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Address</label>
-                                                <input class="form-control" type="text" placeholder="address" id="Address">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Religion</label>
-                                                <input class="form-control" type="text" placeholder="Religion" id="Religion">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Marital Status</label>
-                                                <input class="form-control" type="text" placeholder="Marital Status" id="MaritalStatus">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Nasionality</label>
-                                                <input class="form-control" type="text" placeholder="Nationality" id="Nationality">
-                                            </div>
+                                                <div class="form-group">
+                                                    <label>Address</label>
+                                                    <input class="form-control" type="text" placeholder="address" id="Address">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Religion</label>
+                                                    <input class="form-control" type="text" placeholder="Religion" id="Religion">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Marital Status</label>
+                                                    <select class="form-control" id="MaritalStatus" name="Action">
+                                                        <option value="">Select Option</option>
+                                                        <option>Single</option>
+                                                        <option>Married</option>
+                                                        <option>Divorce</option>
+                                                        <option>Others</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Nasionality</label>
+                                                    <input class="form-control" type="text" placeholder="Nationality" id="Nationality">
+                                                </div>
 
-                                        </form>
-                                    </div>
+                                            </form>
+                                        </div>
 
-                                    <div class="tab-pane fade show active" id="Education">
-                                        <form action="javascript:void(0)">
-                                            <div class="row">
-                                                <div class="col-sm-6 form-group">
-                                                    <label>Last Education</label>
-                                                    <input class="form-control" type="text" placeholder="Ex: S1 Teknik Informatika, Universitas Telkom - 2016 " id="LastEducation">
+                                        <div class="tab-pane fade show active" id="Education">
+                                            <form action="javascript:void(0)">
+                                                <div class="row">
+                                                    <div class="col-sm-6 form-group">
+                                                        <label>Last Education</label>
+                                                        <input class="form-control" type="text" placeholder="Ex: S1 Teknik Informatika, Universitas Telkom - 2016 " id="LastEducation">
+                                                    </div>
+                                                    <div class="col-sm-6 form-group">
+                                                        <label>GPA</label>
+                                                        <input class="form-control" type="text" placeholder="Ex : 3.50" id="GPA">
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-6 form-group">
-                                                    <label>GPA</label>
-                                                    <input class="form-control" type="text" placeholder="Ex : 3.50" id="GPA">
+                                                <div class="form-group">
+                                                    <label>Technical Skill</label>
+                                                    <input class="form-control" type="text" placeholder="Technical Skill" id="TechnicalSkill">
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Technical Skill</label>
-                                                <input class="form-control" type="text" placeholder="Technical Skill" id="TechnicalSkill">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Experience</label>
-                                                <input class="form-control" type="text" placeholder="Experience" id="Experience">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Achievement</label>
-                                                <input class="form-control" type="text" placeholder="Achievement" id="Achievement">
-                                            </div>
-                                            <div class="form-group">
-                                                <button class="btn btn-default" type="button" onclick="Update();">Submit</button>
-                                            </div>
-                                        </form>
+                                                <div class="form-group">
+                                                    <label>Experience</label>
+                                                    <input class="form-control" type="text" placeholder="Experience" id="Experience">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Achievement</label>
+                                                    <input class="form-control" type="text" placeholder="Achievement" id="Achievement">
+                                                </div>
+                                                <div class="form-group">
+                                                    <button class="btn btn-default" type="button" onclick="Update();">Submit</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
+
                 </div>
                 <style>
 
@@ -159,7 +177,9 @@
     </div>
 
     @section Scripts {
-     <script src="~/js/Script/JobSeeker.js"></script>
+        <script src="~/js/Script/JobSeeker.js"></script>
+        <script src="~/js/sweetalert2@9.js"></script>
+
     }
 </body>
 </html>

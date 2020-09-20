@@ -13,6 +13,7 @@ namespace JobRegistrationSubmisson.ViewModel
         public string Password { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
+        public string Name { get; set; }
         public DateTime Birth_Date { get; set; }
         public string Nationality { get; set; }
         public string Marital_Status { get; set; }

@@ -21,7 +21,7 @@ namespace JobRegistrationSubmisson.Context
             modelBuilder.Entity<UserRole>().HasKey(sc => sc.UserId);
             modelBuilder.Entity<Employees>().HasKey(sc => sc.EmpId);
             modelBuilder.Entity<JobSeeker>().HasKey(sc => sc.JobSId);
-            modelBuilder.Entity<JobSeeker>().HasKey(sc => sc.JoblistId);
+            modelBuilder.Entity<JobSeekerList>().HasKey(sc => sc.JobSeekerId);
 
 
             modelBuilder.Entity<UserRole>()
@@ -39,16 +39,17 @@ namespace JobRegistrationSubmisson.Context
                 .WithOne(ad => ad.JobSeeker)
                 .HasForeignKey<JobSeeker>(ad => ad.JobSId);
 
-            modelBuilder.Entity<JobSeeker>()
-                .HasOne<Joblist>(sc => sc.Joblist)
-                .WithMany(s => s.jobSeekers)
-                .HasForeignKey(sc => sc.JoblistId);
+            modelBuilder.Entity<JobSeekerList>()
+                .HasOne<JobSeeker>(sc => sc.JobSeeker)
+                .WithMany(s => s.jobSeekerLists)
+                .HasForeignKey(sc => sc.JobSeekerId);
 
             //base.OnModelCreating(modelBuilder);
         }
         public DbSet<Employees> Employees { get; set; }
         public DbSet<JobSeeker> JobSeekers { get; set; }
         public DbSet<Joblist> Joblists { get; set; }
+        public DbSet<JobSeekerList> JobSeekerLists { get; set; }
 
     }
 }

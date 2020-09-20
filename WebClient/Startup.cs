@@ -57,7 +57,7 @@ namespace WebClient
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Joblists}/{action=Index}/{id?}");
             });
         }
     }

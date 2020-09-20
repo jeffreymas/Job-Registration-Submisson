@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using JobRegistrationSubmisson.Models;
 using Microsoft.AspNetCore.Http;
@@ -54,7 +55,7 @@ namespace WebClient.Controllers
             //client.DefaultRequestHeaders.Add("Authorization", token);
             var resTask = client.GetAsync("joblists/" + Id);
             resTask.Wait();
-            HttpContext.Session.SetInt32("joblist", Id);
+            HttpContext.Session.SetInt32("joblists", Id);
             var result = resTask.Result;
             if (result.IsSuccessStatusCode)
             {
@@ -67,5 +68,6 @@ namespace WebClient.Controllers
             }
             return Json(joblist);
         }
+
     }
 }
