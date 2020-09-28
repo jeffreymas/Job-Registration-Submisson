@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Layout/_layout.cshtml";
+}
+
+
+<div class="content-wrapper">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header no-bd">
+                    <h5 class="modal-title"><span class="fw-mediumbold">Job list</span></h5>
+                    <div data-toggle="modal" data-target="#myModal" onclick="ClearScreen();">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped">
+                        <tbody>
+                            <tr hidden>
+                                <th width="30%">Id</th>
+                                <th>:</th>
+                                <td id="Id"> </td>
+                            </tr>
+                            <tr>
+                                <th width="30%">Name</th>
+                                <th>:</th>
+                                <td id="Name"> </td>
+                            </tr>
+                            <tr>
+                                <th>Gender</th>
+                                <th width="10%">:</th>
+                                <td id="Gender"></td>
+                            </tr>
+                            <tr>
+                                <th>Birth Date</th>
+                                <th>:</th>
+                                <td id="BirthDate"></td>
+                            </tr>
+                            <tr>
+                                <th>Address</th>
+                                <th>:</th>
+                                <td id="Address"></td>
+                            </tr>
+                            <tr>
+                                <th>Religion</th>
+                                <th>:</th>
+                                <td id="Religion"></td>
+                            </tr>
+                            <tr>
+                                <th>Marital Status</th>
+                                <th>:</th>
+                                <td id="MaritalStatus"></td>
+                            </tr>
+                            <tr>
+                                <th>Nasionality</th>
+                                <th>:</th>
+                                <td id="Nasionality"></td>
+                            </tr>
+                            <tr>
+                                <th>Last Education</th>
+                                <th>:</th>
+                                <td id="LastEducation"></td>
+                            </tr>
+                            <tr>
+                                <th>GPA</th>
+                                <th>:</th>
+                                <td id="GPA"></td>
+                            </tr>
+                            <tr>
+                                <th>Experience</th>
+                                <th>:</th>
+                                <td id="Experience"></td>
+                            </tr>
+                            <tr>
+                                <th>Achievement</th>
+                                <th>:</th>
+                                <td id="Achievement"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer no-bd">
+                    @*<button type="button" id="add" class="btn btn-outline-success" data-dismiss="modal" onclick="Save();">Insert</button>*@
+                    <button type="button" id="approve" class="btn btn-outline-success" data-dismiss="modal" onclick="Approve()">Approve</button>
+                    <button type="button" id="reject" class="btn btn-outline-danger" data-dismiss="modal" onclick="Reject()">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+    <!-- START PAGE CONTENT-->
+    <div class="page-heading">
+        <h1 class="page-title">Job Seeker List</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="index.html"><i class="la la-home font-20"></i></a>
+            </li>
+
+        </ol>
+    </div>
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            @*<div class="ibox-head">
+                    <div class="ibox-title">Data Table</div>
+                </div>*@
+            <div class="ibox-body">
+                <a asp-action="Excel" class="btn btn-success pull-right hidden-sm-down fa fa-file-excel-o" data-toggle="tooltip" title="Export Excel"></a>
+                <a asp-action="ExportPdf" class="btn btn-danger pull-right hidden-sm-down fa fa-file-pdf-o" data-toggle="tooltip" title="Export Pdf"></a>
+                <table class="table table-striped table-bordered table-hover" id="Jobseeker" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>JobSeeker Name</th>
+                            <th>Job Title</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+    <footer class="page-footer">
+        <div class="font-13">2018 © <b>AdminCAST</b> - All rights reserved.</div>
+        <a class="px-4" href="http://themeforest.net/item/adminca-responsive-bootstrap-4-3-angular-4-admin-dashboard-template/20912589" target="_blank">BUY PREMIUM</a>
+        <div class="to-top"><i class="fa fa-angle-double-up"></i></div>
+    </footer>
+</div>
+
+@section Scripts{
+    <script src="~/js/Script/Employee.js"></script>
+}
