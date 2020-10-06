@@ -7,7 +7,7 @@ Kemudian pihak perusahaan akan menerima data yang dikirimkan pelamar dan mempert
 ## Business Process Model Notation (BPMN)
 <img src="BPMN_JobRegistSubmission.png">
 
-## Struktur DataBase
+## Entity Relationship Diagram (ERD)
 <img src="ERD.png">
 
 ## UseCase
